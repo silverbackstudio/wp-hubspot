@@ -59,8 +59,6 @@ const schema = {
 	},
 };
 
-let progressiveID = 0;
-
 /**
  * Register: aa Gutenberg Block.
  *
@@ -111,16 +109,12 @@ registerBlockType( 'hubspot/form', {
 	 *
 	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 	 */
-	edit: function( props ) {
-		
-		console.log(props);
-		
-		const {
+	edit: function( {
 			attributes,
 			setAttributes,
 			className,
 			clientId,
-		} = props;
+		} ) {
 		
 		const { portalId, formId, eventName, customCss, anchor } = attributes;
 
@@ -130,14 +124,6 @@ registerBlockType( 'hubspot/form', {
 
 		const editor = (
 			<Fragment>
-				<TextControl
-					label={ __( 'Form Name', '_svbk' ) }
-					value={ eventName }
-					onChange={ ( value ) => {
-						setAttributes( { eventName: value  } ) }
-					}
-					help = { __( 'The form name will be used for the event that is fired after the form has benn submitted successfully', '_svbk') }
-				/>				
 				<TextControl
 					label={ __( 'Portal ID', '_svbk' ) }
 					value={ portalId }
@@ -174,6 +160,16 @@ registerBlockType( 'hubspot/form', {
 								}
 								help = { __( 'Apply Theme Custom Css', '_svbk') }
 							/>	
+						</PanelBody>
+						<PanelBody title={ __( 'Tracking', '_svbk' ) } initialOpen={ false } >
+							<TextControl
+								label={ __( 'Form Name', '_svbk' ) }
+								value={ eventName }
+								onChange={ ( value ) => {
+									setAttributes( { eventName: value  } ) }
+								}
+								help = { __( 'The form name will be used for the event that is fired after the form has benn submitted successfully', '_svbk') }
+							/>		
 						</PanelBody>						
 					</InspectorControls> 
 					<div className={ className } >{ 'Hubspot Form' }{ eventName ? ( ' (' + eventName + ')' ) : ''}</div>
