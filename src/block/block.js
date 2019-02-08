@@ -82,6 +82,27 @@ registerBlockType( 'hubspot/form', {
 		__( 'form' )
 	],
 
+	transforms: {
+	    from: [
+	        {
+	            type: 'shortcode',
+	            tag: 'hubspot',
+	            attributes: {
+	                // An attribute can be source from the shortcode attributes
+	                portalId: {
+	                    type: 'string',
+	                    shortcode: ( { named: { portal = '' } } ) => portal,
+	                },
+	                // An attribute can be source from the shortcode attributes
+	                formId: {
+	                    type: 'string',
+	                    shortcode: ( { named: { id = '' } } ) => id,
+	                },
+	            },
+	        },
+	    ]
+	},
+
 	attributes: schema,
 
 	supports: {
