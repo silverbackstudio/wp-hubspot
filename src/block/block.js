@@ -11,9 +11,12 @@ import './editor.scss';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 
+const { omit } = lodash;
+
 const { Fragment } = wp.element;
 const { 
-	registerBlockType
+	registerBlockType,
+	createBlock
 } = wp.blocks; 
 
 const { 
@@ -30,6 +33,11 @@ const {
 	InspectorControls,
 	RichText,
 } = wp.editor;
+
+
+const supports = {
+	anchor: true
+};
 
 const schema = {
 	portalId: {
@@ -51,11 +59,11 @@ const schema = {
         attribute: 'data-custom-css',
         default: true,
 	},	
-	eventName: {
+	formName: {
 		type: 'string',
         source: 'attribute',
         selector: 'div.wp-block-hubspot-form',
-        attribute: 'data-event-name',
+        attribute: 'data-name',
 	},
 };
 
@@ -82,6 +90,10 @@ registerBlockType( 'hubspot/form', {
 		__( 'form' )
 	],
 
+	attributes: schema,
+
+	supports,
+
 	transforms: {
 	    from: [
 	        {
@@ -100,14 +112,77 @@ registerBlockType( 'hubspot/form', {
 	                },
 	            },
 	        },
-	    ]
+			{
+				type: 'raw',
+				selector: 'div',
+				schema: {
+					div: { attributes: [ 'data-portal-id', 'data-form-id' ] },
+				},
+				//isMatch: ( node ) => node.dataset && node.dataset.block === 'hubspot/form',
+				transform( node ) {
+					
+					const { portalId, formId } = node.dataset;
+					const attrs = {};
+	
+					if ( portalId ) {
+						attrs.portalId = portalId;
+					}
+					
+					if ( formId ) {
+						attrs.formId = formId;
+					}
+					
+					return createBlock( 'hubspot/form', attrs );
+				},
+			},	        
+	    ],
 	},
 
-	attributes: schema,
+    deprecated: [
+        {
+        	supports:{
+				anchor: true
+			},
+        	
+			attributes: {
+				...omit( schema, [ 'formName' ] ),
+				anchor: {
+					type: 'string',
+			        source: 'attribute',
+			        selector: 'div.wp-block-hubspot-form',
+			        attribute: 'id',		
+				},				
+				eventName: {
+					type: 'string',
+			        source: 'attribute',
+			        selector: 'div.wp-block-hubspot-form',
+			        attribute: 'data-event-name',
+				},
+			},        	
 
-	supports: {
-		anchor: true,
-	},
+			migrate( attributes ) {
+				const { eventName, ...migratedAttributes } = attributes;
+
+				return {
+					...migratedAttributes,
+					formName: eventName, 
+				};
+			},
+			
+			save( { attributes } ) {
+				const { portalId, formId, eventName, customCss } = attributes;
+
+				return (
+					<div 
+						data-portal-id={ portalId }
+						data-form-id={ formId }
+						data-event-name={ eventName }
+						data-custom-css={ customCss ? 1 : '' } 
+					></div>
+				);
+			},
+        }
+    ],
 
 	styles: [
 	    // Mark style as default.
@@ -137,7 +212,7 @@ registerBlockType( 'hubspot/form', {
 			clientId,
 		} ) {
 		
-		const { portalId, formId, eventName, customCss, anchor } = attributes;
+		const { portalId, formId, formName, customCss, anchor } = attributes;
 
 		if ( !anchor ) {
 			setAttributes({ anchor: 'form_' + clientId });
@@ -165,8 +240,6 @@ registerBlockType( 'hubspot/form', {
 		);
 
 		return (
-			formId && portalId ?
-			( 
 				<Fragment>
 					<InspectorControls>
 						<PanelBody title={ __( 'Settings', '_svbk' ) }>
@@ -185,24 +258,19 @@ registerBlockType( 'hubspot/form', {
 						<PanelBody title={ __( 'Tracking', '_svbk' ) } initialOpen={ false } >
 							<TextControl
 								label={ __( 'Form Name', '_svbk' ) }
-								value={ eventName }
+								value={ formName }
 								onChange={ ( value ) => {
-									setAttributes( { eventName: value  } ) }
+									setAttributes( { formName: value  } ) }
 								}
-								help = { __( 'The form name will be used for the event that is fired after the form has benn submitted successfully', '_svbk') }
+								help = { __( 'The form name will be used to identify the submission. Ex. On the event that is fired after the form has been submitted successfully', '_svbk') }
 							/>		
 						</PanelBody>						
 					</InspectorControls> 
-					<div className={ className } >{ 'Hubspot Form' }{ eventName ? ( ' (' + eventName + ')' ) : ''}</div>
-				</Fragment>
-			) : 
-			( 
-				<Fragment>
-					<h3>{'Hubspot Form'}</h3>
-					{ editor }
-					<p>{ 'Please Enter this parameters to begin' }</p>
+					<div className={ className } >
+						<p>{ 'Hubspot Form' }{ formName ? ( ' (' + formName + ')' ) : ''}</p>
+						{ ( !formId || !portalId ) && ( <span class="warning">{ 'Please enter parameters in the options sidebar' }</span> )  }
+					</div>						
 				</Fragment>	
-			)
 		);
 	},
 
@@ -216,13 +284,13 @@ registerBlockType( 'hubspot/form', {
 	 */
 	save: function( { attributes } ) {
 		
-		const { portalId, formId, eventName, customCss } = attributes;
+		const { portalId, formId, formName, customCss } = attributes;
 		
 		return portalId && formId ? (
 			<div 
 				data-portal-id={ portalId }
 				data-form-id={ formId }
-				data-event-name={ eventName }
+				data-name={ formName }
 				data-custom-css={ customCss ? 1 : '' } 
 			></div>
 		) : null;
