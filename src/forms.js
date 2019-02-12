@@ -59,12 +59,15 @@ window.dataLayer = window.dataLayer || [];
 
         if ( hubspotFormThemeCss && $form_container.data('customCss') ) {
             options.onFormReady = function($form){ 
-        	    $('<link rel="stylesheet" href="' + hubspotFormThemeCss + '" type="text/css" />').appendTo( $form.closest('html').find('head') );
         	    $form.addClass( $form_container.attr('class') );
         	    
-        	    //Render forms again with new style
-        	    hubspot.form.formRenderer.rerenderForms(hbspt.forms.shells);
+        	    var cssStyle = $('<link rel="stylesheet" href="' + hubspotFormThemeCss + '" type="text/css" />');
         	    
+        	    cssStyle.on('load', function(){
+        	        hubspot.form.formRenderer.rerenderForms(hbspt.forms.shells); 
+        	    });
+        	    
+        	    cssStyle.appendTo( $form.closest('html').find('head') );
         	};
         }
         
