@@ -63,7 +63,7 @@ window.dataLayer = window.dataLayer || [];
         	    $form.addClass( $form_container.attr('class') );
         	    
         	    //Render forms again with new style
-        	    hubspot.form.formRenderer.rerenderForms(hbspt.forms.shells.length);
+        	    hubspot.form.formRenderer.rerenderForms(hbspt.forms.shells);
         	    
         	};
         }
