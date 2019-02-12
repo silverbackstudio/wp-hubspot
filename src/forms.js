@@ -8,7 +8,6 @@ window.dataLayer = window.dataLayer || [];
 (function($){
 
     $('.wp-block-hubspot-form').each(function(){
-
         var $form_container = $(this);
 
         var options = {};
@@ -62,6 +61,10 @@ window.dataLayer = window.dataLayer || [];
             options.onFormReady = function($form){ 
         	    $('<link rel="stylesheet" href="' + hubspotFormThemeCss + '" type="text/css" />').appendTo( $form.closest('html').find('head') );
         	    $form.addClass( $form_container.attr('class') );
+        	    
+        	    //Render forms again with new style
+        	    hubspot.form.formRenderer.rerenderForms(hbspt.forms.shells.length);
+        	    
         	};
         }
         
