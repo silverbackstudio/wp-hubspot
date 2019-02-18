@@ -1,5 +1,5 @@
 {
-    "name": "silverback/wp-hubspot",
+    "name": "silverback/svbk-wp-hubspot",
     "description": "WordPress Hubpot Integration Plugin",
     "type": "wordpress-plugin",
     "license": "GPL-3",
