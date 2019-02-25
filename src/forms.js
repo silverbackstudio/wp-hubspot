@@ -24,10 +24,10 @@ window.dataLayer = window.dataLayer || [];
             options.target = '#' + $form_container.attr('id');
         }            
 
-        var formData = {};
-
         options.onFormSubmit = function( $form ){
-    	    
+
+            var formData = {};
+
     	    formData = $form.serializeArray().reduce( function( accu, item ) {
     	       accu[item.name] = item.value;
     	       return accu;
@@ -45,16 +45,20 @@ window.dataLayer = window.dataLayer || [];
                 'formElement': $form,
                 'formData': formData
             });
+            
+            $form_container.trigger( 'formSubmit', [ $form, formData ] );
         };  
         
         options.onFormSubmitted = function( $form ){
+
     	    dataLayer.push({
                 'event': 'formSubmitted', 
                 'formAction': $form_container.data('name'), 
                 'formName': $form_container.data('name'),
                 'formGuid': options.formId,
-                'formData': formData
             });
+            
+            $form_container.trigger( 'formSubmitted', [ $form ] );
         };          
 
         if ( hubspotFormThemeCss && $form_container.data('customCss') ) {
@@ -68,6 +72,8 @@ window.dataLayer = window.dataLayer || [];
         	    });
         	    
         	    cssStyle.appendTo( $form.closest('html').find('head') );
+        	    
+        	    $form_container.trigger( 'formReady', [ $form ] );
         	};
         }
         

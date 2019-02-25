@@ -38,7 +38,7 @@ function svbk_hubspot_scripts() {
 		'svbk-hubspot',
 		plugins_url( '/src/forms.js', __FILE__ ), 
 		array( 'jquery', 'hubspot-forms-shell' ),
-		'1.1.3', 
+		'1.1.5', 
 		true 
 	);
 
