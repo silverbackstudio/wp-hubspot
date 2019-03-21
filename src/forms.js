@@ -63,7 +63,7 @@ window.dataLayer = window.dataLayer || [];
 
         if ( hubspotFormThemeCss && $form_container.data('customCss') ) {
             options.onFormReady = function($form){ 
-        	    $form.addClass( $form_container.attr('class') );
+        	    $form.parent().addClass( $form_container.attr('class') );
         	    
         	    var cssStyle = $('<link rel="stylesheet" href="' + hubspotFormThemeCss + '" type="text/css" />');
         	    
