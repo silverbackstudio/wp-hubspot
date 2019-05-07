@@ -64,7 +64,7 @@ window.dataLayer = window.dataLayer || [];
 
 	    options.onFormReady = function($form){ 
 
-            $form.addClass( $form_wrapper.attr('class') );
+            $form.parent().addClass( $form_wrapper.attr('class') );
             
             if (  $form_wrapper.attr('style') ) {
                 $form.attr( 'style',  ($form.attr('style') || '')  + $form_wrapper.attr('style') );
