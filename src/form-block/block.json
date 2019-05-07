@@ -1,0 +1,69 @@
+{
+	"name": "hubspot/form",
+	"category": "embed",
+	"attributes": {
+    	"portalId": {
+    		"type": "string",
+            "source": "attribute",
+            "selector": "div.wp-block-hubspot-form__form",
+            "attribute": "data-portal-id"	
+    	},
+    	"formId": {
+    		"type": "string",
+            "source": "attribute",
+            "selector": "div.wp-block-hubspot-form__form",
+            "attribute": "data-form-id"
+    	},
+    	"customCss": {
+    		"type": "boolean",
+            "source": "attribute",
+            "selector": "div.wp-block-hubspot-form__form",
+            "attribute": "data-custom-css",
+            "default": true
+    	},	
+    	"formName": {
+    		"type": "string",
+            "source": "attribute",
+            "selector": "div.wp-block-hubspot-form__form",
+            "attribute": "data-name"
+    	},
+    	"title": {
+    		"type": "string",
+    		"source": "text",
+    		"selector": ".wp-block-hubspot-form__title"
+    	},
+    	"titleLevel": {
+    		"type": "number",
+    		"default": 2
+    	},
+    	"subtitle": {
+    		"type": "string",
+    		"source": "text",
+            "selector": ".wp-block-hubspot-form__subtitle"
+    	},
+    	"content": {
+    		"type": "string",
+    		"source": "html",
+            "selector": ".wp-block-hubspot-form__content"
+    	},	
+    	"titleLevel": {
+    		"type": "number",
+    		"default": 2
+    	},
+    	"backgroundColor": {
+    		"type": "string"
+    	},
+    	"customBackgroundColor": {
+    		"type": "string"
+    	},
+    	"textColor": {
+    		"type": "string"
+    	},
+    	"customTextColor": {
+    		"type": "string"
+    	},
+    	"align": {
+    		"type": "string"
+    	}
+    }
+}

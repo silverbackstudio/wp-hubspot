@@ -8,7 +8,8 @@ window.dataLayer = window.dataLayer || [];
 (function($){
 
     $('.wp-block-hubspot-form').each(function(){
-        var $form_container = $(this);
+        var $form_wrapper = $(this)
+        var $form_container = $(this).find('.wp-block-hubspot-form__form');
 
         var options = {};
         
@@ -20,8 +21,8 @@ window.dataLayer = window.dataLayer || [];
             options.formId = $form_container.data('formId');
         }    
         
-        if ( $form_container.attr('id') ) {
-            options.target = '#' + $form_container.attr('id');
+        if ( $form_wrapper.attr('id') ) {
+            options.target = '#' + $form_wrapper.attr('id') + ' .wp-block-hubspot-form__form';
         }            
 
         options.onFormSubmit = function( $form ){
@@ -61,10 +62,16 @@ window.dataLayer = window.dataLayer || [];
             $form_container.trigger( 'formSubmitted', [ $form ] );
         };          
 
-        if ( hubspotFormThemeCss && $form_container.data('customCss') ) {
-            options.onFormReady = function($form){ 
-        	    $form.addClass( $form_container.attr('class') );
-        	    
+	    options.onFormReady = function($form){ 
+
+            $form.addClass( $form_wrapper.attr('class') );
+            
+            if (  $form_wrapper.attr('style') ) {
+                $form.attr( 'style',  ($form.attr('style') || '')  + $form_wrapper.attr('style') );
+            }
+
+            if ( hubspotFormThemeCss && $form_container.data('customCss') ) {
+    	    
         	    var cssStyle = $('<link rel="stylesheet" href="' + hubspotFormThemeCss + '" type="text/css" />');
         	    
         	    cssStyle.on('load', function(){
@@ -72,10 +79,11 @@ window.dataLayer = window.dataLayer || [];
         	    });
         	    
         	    cssStyle.appendTo( $form.closest('html').find('head') );
+            }
+            
+    	    $form_container.trigger( 'formReady', [ $form ] );
         	    
-        	    $form_container.trigger( 'formReady', [ $form ] );
-        	};
-        }
+      	};
         
         if ( options.portalId && options.formId ) {
             hbspt.forms.create(options);    
