@@ -81,6 +81,11 @@ window.dataLayer = window.dataLayer || [];
         	    cssStyle.appendTo( $form.closest('html').find('head') );
             }
             
+            if ( $form_container.data('preloadField') && $form_container.data('preloadValue') ) {
+                console.log( $form_container.data('preloadField'), $form_container.data('preloadValue'),  $form.find('.hs_' + $form_container.data('preloadField') +  ' input' )  );
+                $form.find('.hs_' + $form_container.data('preloadField') +  ' input' ).val( $form_container.data('preloadValue') );
+            }
+            
     	    $form_container.trigger( 'formReady', [ $form ] );
         	    
       	};

@@ -46,10 +46,6 @@
     		"source": "html",
             "selector": ".wp-block-hubspot-form__content"
     	},	
-    	"titleLevel": {
-    		"type": "number",
-    		"default": 2
-    	},
     	"backgroundColor": {
     		"type": "string"
     	},
@@ -64,6 +60,19 @@
     	},
     	"align": {
     		"type": "string"
+    	},
+    	"preloadFieldName": {
+    		"type": "string",
+            "source": "attribute",
+            "selector": "div.wp-block-hubspot-form__form",
+            "attribute": "data-preload-field"
+    	},
+    	"preloadFieldValue": {
+    		"type": "string",
+            "source": "attribute",
+            "selector": "div.wp-block-hubspot-form__form",
+            "attribute": "data-preload-value"
     	}
+    	    	
     }
 }

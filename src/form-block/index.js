@@ -115,7 +115,9 @@ registerBlockType( name, {
 			customBackgroundColor,
 			textColor,
 			customTextColor,
-			align,			
+			align,
+			preloadFieldName,
+			preloadFieldValue,
 		} = attributes;
 		
 		const titleTag = titleLevel ? ('h' + titleLevel) : 'h2';		
@@ -153,6 +155,8 @@ registerBlockType( name, {
 					data-form-id={ formId }
 					data-name={ formName }
 					data-custom-css={ customCss ? 1 : '' } 
+					data-preload-field={ preloadFieldName ? preloadFieldName : undefined }
+					data-preload-value={ preloadFieldValue ? preloadFieldValue : undefined }
 				></div>
 			</div>
 			

@@ -27,6 +27,7 @@ const {
 	Panel,
 	PanelBody,
 	TextControl,
+	BaseControl,
 	ToggleControl,
 	Placeholder,
 	Icon,
@@ -75,7 +76,9 @@ class HubspotFormEdit extends Component {
 			title,
 			titleLevel,
 			subtitle,
-			content, 			
+			content,
+			preloadFieldName,
+			preloadFieldValue,
 		} = attributes;
 
 		if ( !anchor ) {
@@ -120,7 +123,7 @@ class HubspotFormEdit extends Component {
 		return (
 				<Fragment>
 					<InspectorControls>
-						<PanelBody title={ __( 'Settings', '_svbk' ) } initialOpen={ ( formId && portalId ) }>
+						<PanelBody title={ __( 'Form Settings', '_svbk' ) } initialOpen={ ( formId && portalId ) }>
 						 { editor }
 						</PanelBody>
 						<PanelBody title={ __( 'Style', '_svbk' ) } initialOpen={ false } >
@@ -162,8 +165,32 @@ class HubspotFormEdit extends Component {
 								onChange={ ( value ) => {
 									setAttributes( { formName: value  } ) }
 								}
-								help = { __( 'The form name will be used to identify the submission. Ex. On the event that is fired after the form has been submitted successfully', '_svbk') }
-							/>		
+								help = { __( 'Preload a field with the specified value. Use the file handle to specify the field. Ex. "lifecyclestage"', '_svbk') }
+							/>	
+							<BaseControl 
+								label={ 'Preload Field' } 
+								id={ 'hs-form-field-preload' }  
+								className={ className }
+								help={ __( 'Preload field ', '_svbk' ) }
+							>
+								<input className="components-text-control__input"
+									type={ 'text' }
+									id={ 'hs-form-field-preload' }
+									value={ preloadFieldName }
+									onChange={ ( event ) => {
+										setAttributes( { preloadFieldName: event.target.value  } ) }
+									}
+								/>
+								<span>{ __( 'with', '_svbk' ) }</span>
+								<input className="components-text-control__input"
+									type={ 'text' }
+									id={ 'hs-form-field-value' }
+									value={ preloadFieldValue }
+									onChange={ ( event ) => {
+										setAttributes( { preloadFieldValue: event.target.value  } ) }
+									}
+								/>			
+							</BaseControl>							
 						</PanelBody>						
 					</InspectorControls> 
 	                <BlockControls>
