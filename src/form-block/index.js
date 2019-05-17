@@ -100,7 +100,7 @@ registerBlockType( name, {
 	 *
 	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 	 */
-	save: function( { attributes } ) {
+	save( { attributes } ) {
 		
 		const { 
 			portalId, 
@@ -138,7 +138,7 @@ registerBlockType( name, {
 			textAlign: align,
 		};		
 		
-		return portalId && formId ? (
+		return (
 			<div className={ classNames } style={ style } >
 				{ title && ( 
 				<RichText.Content tagName={ titleTag } className={ 'wp-block-hubspot-form__title' } value={ title } /> 
@@ -149,6 +149,7 @@ registerBlockType( name, {
 				{ content && ( 
 				<RichText.Content tagName={ 'p' } className={ 'wp-block-hubspot-form__content' } value={ content } /> 
 				) }
+				{ portalId && formId (
 				<div 
 					className={ 'wp-block-hubspot-form__form' }
 					data-portal-id={ portalId }
@@ -158,8 +159,10 @@ registerBlockType( name, {
 					data-preload-field={ preloadFieldName ? preloadFieldName : undefined }
 					data-preload-value={ preloadFieldValue ? preloadFieldValue : undefined }
 				></div>
+				)}
 			</div>
 			
-		) : null;
+		);
 	},
-} );
+} 
+);
