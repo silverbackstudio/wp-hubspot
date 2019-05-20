@@ -149,7 +149,7 @@ registerBlockType( name, {
 				{ content && ( 
 				<RichText.Content tagName={ 'p' } className={ 'wp-block-hubspot-form__content' } value={ content } /> 
 				) }
-				{ portalId && formId (
+				{ portalId && formId && (
 				<div 
 					className={ 'wp-block-hubspot-form__form' }
 					data-portal-id={ portalId }
