@@ -23,62 +23,7 @@ const transforms = {
                     shortcode: ( { named: { id = '' } } ) => id,
                 },
             },
-        },
-		{
-			type: 'raw',
-			selector: 'div',
-			schema: {
-				div: { attributes: [ 'data-portal-id', 'data-form-id' ] },
-			},
-			//isMatch: ( node ) => node.dataset && node.dataset.block === 'hubspot/form',
-			transform( node ) {
-				
-				const { portalId, formId } = node.dataset;
-				const attrs = {};
-
-				if ( portalId ) {
-					attrs.portalId = portalId;
-				}
-				
-				if ( formId ) {
-					attrs.formId = formId;
-				}
-				
-				return createBlock( 'hubspot/form', attrs );
-			},
-		},	        
-		// {
-		// 	type: 'raw',
-		// 	schema: {
-		// 		script: { 
-		// 			attributes: [ 'charset', 'src' ],
-		// 			allowEmpty: true,
-		// 		},
-		// 		script: { 
-		// 			children: {
-		// 				'#text': {},
-		// 			},
-		// 		},
-		// 	},
-		// 	//isMatch: ( node ) => node.dataset && node.dataset.block === 'hubspot/form',
-		// 	transform( node ) {
-				
-		// 		console.log( 'HS FORM EMBED TRANSFORM', node );
-				
-		// 		const { portalId, formId } = node.dataset;
-		// 		const attrs = {};
-
-		// 		// if ( portalId ) {
-		// 		// 	attrs.portalId = portalId;
-		// 		// }
-				
-		// 		// if ( formId ) {
-		// 		// 	attrs.formId = formId;
-		// 		// }
-				
-		// 		return createBlock( 'hubspot/form', attrs );
-		// 	},
-		// },	        
+        }	        
     ],
 };
 
