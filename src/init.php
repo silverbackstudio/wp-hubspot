@@ -29,8 +29,8 @@ function svbk_hubspot_block_assets() { // phpcs:ignore
 	);
 }
 
-// Hook: Frontend assets.
-add_action( 'enqueue_block_assets', 'svbk_hubspot_block_assets' );
+// Hook: Frontend assets. DISABLED: CSS is empty
+// add_action( 'enqueue_block_assets', 'svbk_hubspot_block_assets' );
 
 /**
  * Enqueue Gutenberg block assets for backend editor.
