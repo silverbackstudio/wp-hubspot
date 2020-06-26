@@ -36,7 +36,7 @@ function svbk_hubspot_scripts() {
 	
 	wp_enqueue_script(
 		'svbk-hubspot',
-		plugins_url( '/src/forms.js', __FILE__ ), 
+		plugins_url( '/dist/forms.min.js', __FILE__ ), 
 		array( 'jquery', 'hubspot-forms-shell' ),
 		'1.4.3', 
 		true 
