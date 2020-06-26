@@ -38,7 +38,7 @@ function svbk_hubspot_scripts() {
 		'svbk-hubspot',
 		plugins_url( '/src/forms.js', __FILE__ ), 
 		array( 'jquery', 'hubspot-forms-shell' ),
-		'1.1.5', 
+		'1.4.3', 
 		true 
 	);
 
@@ -50,6 +50,3 @@ function svbk_hubspot_scripts() {
 
 }
 add_action( 'wp_enqueue_scripts', 'svbk_hubspot_scripts' );
-
-// Force disable script deferring
-add_filter( 'script_management_get_defer', function( $defer, $handle ){ return $handle == 'hubspot-forms-shell' ? false : $defer;  }, 10, 2);
