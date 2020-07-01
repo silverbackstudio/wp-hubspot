@@ -7,9 +7,51 @@ window.dataLayer = window.dataLayer || [];
 
 (function($){
 
-    $('.wp-block-hubspot-form').each(function(){
-        var $form_wrapper = $(this)
-        var $form_container = $(this).find('.wp-block-hubspot-form__form');
+    var formObserver = null, formShell = null;
+
+    if (!!window.IntersectionObserver){
+        formObserver = new IntersectionObserver(
+            function(entries, observer) { 
+                for (var i = 0; i < entries.length; i++) {
+                    var entry = entries[i];
+                    if (entry.intersectionRatio <= 0) return;
+
+                    loadShell().done(function() {
+                        loadForm(entry.target);
+                        observer.unobserve(entry.target);
+                    });
+                }
+            }, 
+            {
+                root: null, // relative to document viewport 
+                rootMargin: '200px', // margin around root. Values are similar to css property. Unitless values not allowed
+                threshold: 0.2 // visible amount of item shown in relation to root
+            }
+        );
+    }
+
+    function loadShell(){
+
+        if ( formShell ){
+            return formShell;
+        }
+
+        // If Hubspot client is already there resolve early
+        if ( window.hbspt && window.hbspt.forms ) {
+            formShell = $.Deferred();
+            formShell.resolve();
+            return formShell;
+        }
+        
+        formShell = $.ajax({url: 'https://js.hsforms.net/forms/shell.js', dataType: "script",  cache: true });
+        
+        return formShell;
+    }
+
+    function loadForm(element){
+
+        var $form_wrapper = $(element);
+        var $form_container = $form_wrapper.find('.wp-block-hubspot-form__form');
 
         var options = {};
         
@@ -92,8 +134,16 @@ window.dataLayer = window.dataLayer || [];
         
         if ( options.portalId && options.formId ) {
             hbspt.forms.create(options);    
+        }    
+    }
+
+    $('.wp-block-hubspot-form').each(function() {     
+        var formElement = this;
+        if (formObserver !== null){
+            formObserver.observe(formElement);
+        } else {
+            loadShell().done( function(){ loadForm(formElement) });
         }
-        
     });
 
 })(jQuery);

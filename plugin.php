@@ -26,21 +26,24 @@ require_once plugin_dir_path( __FILE__ ) . 'src/init.php';
  * Enqueue scripts and styles.
  */
 function svbk_hubspot_scripts() {
+	global $post;
 
-	wp_enqueue_script(
-		'hubspot-forms-shell',
-		'//js.hsforms.net/forms/shell.js', 
-		null, 
-		false 
-	);	
-	
-	wp_enqueue_script(
-		'svbk-hubspot',
-		plugins_url( '/dist/forms.min.js', __FILE__ ), 
-		array( 'jquery', 'hubspot-forms-shell' ),
-		'1.4.4', 
-		true 
-	);
+	if ( ! function_exists( 'has_block' ) ) {
+		return;
+	}
+
+	$has_forms = has_block( 'hubspot/form', $post );
+
+	if ( $has_forms ) {
+
+		wp_enqueue_script(
+			'svbk-hubspot',
+			plugins_url( '/dist/forms.min.js', __FILE__ ), 
+			array( 'jquery' ),
+			'1.5.0', 
+			true 
+		);		
+	}
 
     $theme_support = get_theme_support( 'hubspot-forms' );
     

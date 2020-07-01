@@ -6,7 +6,7 @@
     "start": "cgb-scripts start",
     "build": "cgb-scripts build",
     "eject": "cgb-scripts eject",
-    "compress": "terser --compress --mangle -- src/forms.js >> dist/forms.min.js"
+    "compress": "terser --compress --mangle -- src/forms.js > dist/forms.min.js"
   },
   "dependencies": {
     "cgb-scripts": "1.14.0",
