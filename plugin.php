@@ -45,7 +45,7 @@ function svbk_hubspot_scripts() {
     $theme_support = get_theme_support( 'hubspot-forms' );
     
     if ( is_array($theme_support) && !empty( $theme_support[0] ) && !empty( $theme_support[0]['style'] )  ) {
-         wp_localize_script( 'svbk-hubspot', 'hubspotFormThemeCss', apply_filters( 'svbk_hubspot_form_theme_css', $theme_support[0]['style']) );
+         wp_localize_script( 'svbk-hubspot', 'hubspotFormThemeCss', array(apply_filters( 'svbk_hubspot_form_theme_css', $theme_support[0]['style'])) );
     }
 
 }
