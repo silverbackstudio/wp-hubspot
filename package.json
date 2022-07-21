@@ -16,6 +16,6 @@
     "js-yaml": ">=3.13.1"
   },
   "devDependencies": {
-    "terser": "^4.8.0"
+    "terser": "^4.8.1"
   }
 }
